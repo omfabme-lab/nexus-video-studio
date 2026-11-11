@@ -1,0 +1,57 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {};
+	objectVersion = 56;
+	objects = {
+		CE611376B9AC568245DD5950 = { isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BriefAssistant.swift"; sourceTree = "<group>"; };
+		45D968110732A2BF383485F2 = { isa = PBXBuildFile; fileRef = CE611376B9AC568245DD5950; };
+		C2B4DFC938EDDD96B3C2B5EA = { isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CapabilitiesView.swift"; sourceTree = "<group>"; };
+		CFC2DAB488090533B9B9CA1C = { isa = PBXBuildFile; fileRef = C2B4DFC938EDDD96B3C2B5EA; };
+		917CA3B92BFDAE4DDBA19C54 = { isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "KeyframeArt.swift"; sourceTree = "<group>"; };
+		85802B58EF9BF2230BA9B8CB = { isa = PBXBuildFile; fileRef = 917CA3B92BFDAE4DDBA19C54; };
+		3D53975B38D37C00BADB97F7 = { isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LocalRenderer.swift"; sourceTree = "<group>"; };
+		E63C2A22AD634138C6BA21A0 = { isa = PBXBuildFile; fileRef = 3D53975B38D37C00BADB97F7; };
+		8C3ED1390347F7339F06B2EF = { isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MediaControls.swift"; sourceTree = "<group>"; };
+		76DB3A581789ABF33612A895 = { isa = PBXBuildFile; fileRef = 8C3ED1390347F7339F06B2EF; };
+		E17BCF4B965E8551634262E2 = { isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SceneEditor.swift"; sourceTree = "<group>"; };
+		96B7C965C9E047E65DFC8CD6 = { isa = PBXBuildFile; fileRef = E17BCF4B965E8551634262E2; };
+		43EA14BDA69C12A0F10F281F = { isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "StudioApp.swift"; sourceTree = "<group>"; };
+		B5FF3953B66D5DE1799395D9 = { isa = PBXBuildFile; fileRef = 43EA14BDA69C12A0F10F281F; };
+		263BFC69D2E33A4B38DF4A07 = { isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "StudioStore.swift"; sourceTree = "<group>"; };
+		69AF74DB8217D3435AB191C3 = { isa = PBXBuildFile; fileRef = 263BFC69D2E33A4B38DF4A07; };
+		774508720AE3A0A3DEB9EE47 = { isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "StudioTheme.swift"; sourceTree = "<group>"; };
+		DC36A233FCA1F88224BB2FBA = { isa = PBXBuildFile; fileRef = 774508720AE3A0A3DEB9EE47; };
+		171E821C290414B222716CB4 = { isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "StudioView.swift"; sourceTree = "<group>"; };
+		8A35CCD212C9BADE33AF3689 = { isa = PBXBuildFile; fileRef = 171E821C290414B222716CB4; };
+		8F1E876E816D89E2BC742AC3 = { isa = PBXFileReference; lastKnownFileType = text; path = "Resources/Kadr-LICENSE.txt"; sourceTree = "<group>"; };
+		1463045022DEE82B5C6D6D8C = { isa = PBXBuildFile; fileRef = 8F1E876E816D89E2BC742AC3; };
+		392BDC3F55CEC1885F16285B = { isa = PBXFileReference; lastKnownFileType = text.xml; path = "Resources/PrivacyInfo.xcprivacy"; sourceTree = "<group>"; };
+		D04AF157FB143F17000DA183 = { isa = PBXBuildFile; fileRef = 392BDC3F55CEC1885F16285B; };
+		B8FA18644A594FE11B39A425 = { isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Resources/Assets.xcassets"; sourceTree = "<group>"; };
+		0561B6B779527A2FA058B6AB = { isa = PBXBuildFile; fileRef = B8FA18644A594FE11B39A425; };
+		06271BAF49532C879AA3C58B = { isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A8792157CB4F27FB949C035F = { isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NexusVideoStudio.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		5652941471EEF5B25819CDC3 = { isa = PBXGroup; children = (CE611376B9AC568245DD5950,C2B4DFC938EDDD96B3C2B5EA,917CA3B92BFDAE4DDBA19C54,3D53975B38D37C00BADB97F7,8C3ED1390347F7339F06B2EF,E17BCF4B965E8551634262E2,43EA14BDA69C12A0F10F281F,263BFC69D2E33A4B38DF4A07,774508720AE3A0A3DEB9EE47,171E821C290414B222716CB4,8F1E876E816D89E2BC742AC3,392BDC3F55CEC1885F16285B,B8FA18644A594FE11B39A425,06271BAF49532C879AA3C58B,); path = App; sourceTree = "<group>"; };
+		0A3E27B8CA818264D75C8D81 = { isa = PBXGroup; children = (A8792157CB4F27FB949C035F,); name = Products; sourceTree = "<group>"; };
+		0035FE99EA2940F7FA633A58 = { isa = PBXGroup; children = (5652941471EEF5B25819CDC3,0A3E27B8CA818264D75C8D81,); sourceTree = "<group>"; };
+		1339AF797F0B212625BF9778 = { isa = XCLocalSwiftPackageReference; relativePath = "Core"; };
+		8394102B26EB92C02496D14E = { isa = XCSwiftPackageProductDependency; package = 1339AF797F0B212625BF9778; productName = StudioCore; };
+		50CA5E83578EF2251A1ECCFC = { isa = PBXBuildFile; productRef = 8394102B26EB92C02496D14E; };
+		6E53025D366480F94E851D71 = { isa = XCLocalSwiftPackageReference; relativePath = "Vendor/Kadr"; };
+		CA0F14BE5A05988EBBE038B2 = { isa = XCSwiftPackageProductDependency; package = 6E53025D366480F94E851D71; productName = Kadr; };
+		E544D087665FCECD86CF9499 = { isa = PBXBuildFile; productRef = CA0F14BE5A05988EBBE038B2; };
+		878A52FC5FF6A57D50B7B870 = { isa = PBXSourcesBuildPhase; buildActionMask = 2147483647; files = (45D968110732A2BF383485F2,CFC2DAB488090533B9B9CA1C,85802B58EF9BF2230BA9B8CB,E63C2A22AD634138C6BA21A0,76DB3A581789ABF33612A895,96B7C965C9E047E65DFC8CD6,B5FF3953B66D5DE1799395D9,69AF74DB8217D3435AB191C3,DC36A233FCA1F88224BB2FBA,8A35CCD212C9BADE33AF3689,); runOnlyForDeploymentPostprocessing = 0; };
+		41D311A605520FC7B8B9A980 = { isa = PBXResourcesBuildPhase; buildActionMask = 2147483647; files = (1463045022DEE82B5C6D6D8C,D04AF157FB143F17000DA183,0561B6B779527A2FA058B6AB,); runOnlyForDeploymentPostprocessing = 0; };
+		E2AA269EB967A8853A258BFA = { isa = PBXFrameworksBuildPhase; buildActionMask = 2147483647; files = (50CA5E83578EF2251A1ECCFC,E544D087665FCECD86CF9499,); runOnlyForDeploymentPostprocessing = 0; };
+		2B23A31EEC75B029432F2445 = { isa = XCBuildConfiguration; buildSettings = { CLANG_ENABLE_MODULES = YES; SDKROOT = iphoneos; IPHONEOS_DEPLOYMENT_TARGET = 27.0; SWIFT_VERSION = 5.0; SWIFT_STRICT_CONCURRENCY = targeted; SWIFT_OPTIMIZATION_LEVEL = "-Onone"; DEBUG_INFORMATION_FORMAT = dwarf; }; name = Debug; };
+		EDDA600A3F771F810A8065C9 = { isa = XCBuildConfiguration; buildSettings = { PRODUCT_NAME = "$(TARGET_NAME)"; PRODUCT_BUNDLE_IDENTIFIER = studio.nexus.video; INFOPLIST_FILE = App/Info.plist; GENERATE_INFOPLIST_FILE = NO; TARGETED_DEVICE_FAMILY = 1; SUPPORTED_PLATFORMS = "iphoneos iphonesimulator"; SUPPORTS_MACCATALYST = NO; CODE_SIGN_STYLE = Manual; CODE_SIGNING_ALLOWED = NO; CODE_SIGNING_REQUIRED = NO; DEVELOPMENT_TEAM = ""; ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon; LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks"; SWIFT_EMIT_LOC_STRINGS = YES; }; name = Debug; };
+		07CA1E69F6068DEA30A4DA6B = { isa = XCBuildConfiguration; buildSettings = { CLANG_ENABLE_MODULES = YES; SDKROOT = iphoneos; IPHONEOS_DEPLOYMENT_TARGET = 27.0; SWIFT_VERSION = 5.0; SWIFT_STRICT_CONCURRENCY = targeted; SWIFT_OPTIMIZATION_LEVEL = "-O"; DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym"; }; name = Release; };
+		594BCDCC96599D88EF772A08 = { isa = XCBuildConfiguration; buildSettings = { PRODUCT_NAME = "$(TARGET_NAME)"; PRODUCT_BUNDLE_IDENTIFIER = studio.nexus.video; INFOPLIST_FILE = App/Info.plist; GENERATE_INFOPLIST_FILE = NO; TARGETED_DEVICE_FAMILY = 1; SUPPORTED_PLATFORMS = "iphoneos iphonesimulator"; SUPPORTS_MACCATALYST = NO; CODE_SIGN_STYLE = Manual; CODE_SIGNING_ALLOWED = NO; CODE_SIGNING_REQUIRED = NO; DEVELOPMENT_TEAM = ""; ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon; LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks"; SWIFT_EMIT_LOC_STRINGS = YES; }; name = Release; };
+		AAB2723FF2C8E6D1C298C1E4 = { isa = XCConfigurationList; buildConfigurations = (2B23A31EEC75B029432F2445,07CA1E69F6068DEA30A4DA6B,); defaultConfigurationIsVisible = 0; defaultConfigurationName = Release; };
+		04229C262AC03CB8C1234C52 = { isa = XCConfigurationList; buildConfigurations = (EDDA600A3F771F810A8065C9,594BCDCC96599D88EF772A08,); defaultConfigurationIsVisible = 0; defaultConfigurationName = Release; };
+		34A04005BCAF206EEC990BD9 = { isa = PBXNativeTarget; buildConfigurationList = 04229C262AC03CB8C1234C52; buildPhases = (878A52FC5FF6A57D50B7B870,E2AA269EB967A8853A258BFA,41D311A605520FC7B8B9A980,); buildRules = (); dependencies = (); name = NexusVideoStudio; packageProductDependencies = (8394102B26EB92C02496D14E,CA0F14BE5A05988EBBE038B2,); productName = NexusVideoStudio; productReference = A8792157CB4F27FB949C035F; productType = "com.apple.product-type.application"; };
+		244210E48437B6556980A702 = { isa = PBXProject; attributes = { BuildIndependentTargetsInParallel = YES; LastUpgradeCheck = 2700; }; buildConfigurationList = AAB2723FF2C8E6D1C298C1E4; compatibilityVersion = "Xcode 14.0"; developmentRegion = en; hasScannedForEncodings = 0; knownRegions = (en, Base,); mainGroup = 0035FE99EA2940F7FA633A58; packageReferences = (1339AF797F0B212625BF9778,6E53025D366480F94E851D71,); productRefGroup = 0A3E27B8CA818264D75C8D81; projectDirPath = ""; projectRoot = ""; targets = (34A04005BCAF206EEC990BD9,); };
+	};
+	rootObject = 244210E48437B6556980A702;
+}

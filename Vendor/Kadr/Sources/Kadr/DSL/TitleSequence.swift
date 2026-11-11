@@ -1,0 +1,251 @@
+import Foundation
+import CoreGraphics
+import CoreMedia
+#if canImport(UIKit)
+import UIKit
+#elseif canImport(AppKit)
+import AppKit
+#endif
+
+/// A title clip — a colored background with centered text — placed in a composition like
+/// any other ``Clip``.
+///
+/// ```swift
+/// Video {
+///     TitleSequence("MY MOVIE",
+///                   duration: 3.0,
+///                   style: TextStyle(fontSize: 96, weight: .bold))
+///     VideoClip(url: clipURL).trimmed(to: 0...10)
+/// }
+/// .export(to: outputURL)
+/// ```
+///
+/// Internally renders a `PlatformImage` at the export's render size when the engine
+/// consumes the clip, then composites it like an ``ImageClip``. Multi-line text is
+/// supported via `\n` in the input string.
+///
+/// Image-based titles (your own pre-rendered title card) — use ``ImageClip`` directly:
+/// `ImageClip(titleImage, duration: 3.0)`.
+public struct TitleSequence: Clip, Sendable {
+    /// The string rendered into the title image.
+    public let text: String
+    /// Visual style applied to the rendered text.
+    public let style: TextStyle
+    /// Solid color filling the area behind the text.
+    public let backgroundColor: PlatformColor
+    internal let _duration: CMTime
+
+    /// Stable identifier for addressing this clip across reorders or trims, set via
+    /// ``id(_:)``. `nil` if no ID has been assigned.
+    public let clipID: ClipID?
+
+    /// Explicit composition start time, set via ``at(time:)-(CMTime)`` /
+    /// ``at(time:)-(TimeInterval)``. `nil` participates in the implicit chain. See
+    /// ``Clip/startTime`` for the v0.6 contract.
+    public let startTime: CMTime?
+
+    /// Optional per-clip affine transform applied in the engine's render space. `nil`
+    /// (default) leaves the clip's natural aspect-fill layout unchanged. Set via
+    /// ``transform(_:)``. Added in v0.8.
+    public let transform: Transform?
+
+    /// Optional keyframe animation driving ``transform`` over the clip's lifetime.
+    /// Set via ``transform(_:animation:)``. Added in v0.8.
+    public let transformAnimation: Animation<Transform>?
+
+    /// Optional per-clip opacity in `0...1`. `nil` (default) means fully opaque.
+    /// Set via ``opacity(_:)``. Added in v0.8.
+    public let opacity: Double?
+
+    /// Optional keyframe animation driving ``opacity`` over the clip's lifetime.
+    /// Set via ``opacity(_:animation:)``. Added in v0.8.
+    public let opacityAnimation: Animation<Double>?
+
+    public var duration: CMTime { _duration }
+
+    /// Title with a `TimeInterval` duration.
+    public init(
+        _ text: String,
+        duration: TimeInterval = 3.0,
+        style: TextStyle = .default,
+        background: PlatformColor = .black
+    ) {
+        self.init(
+            text,
+            duration: CMTime(seconds: duration, preferredTimescale: 600),
+            style: style,
+            background: background
+        )
+    }
+
+    /// Title with a `CMTime` duration for frame-accurate placement.
+    public init(
+        _ text: String,
+        duration: CMTime,
+        style: TextStyle = .default,
+        background: PlatformColor = .black
+    ) {
+        self.text = text
+        self.style = style
+        self.backgroundColor = background
+        self._duration = duration
+        self.clipID = nil
+        self.startTime = nil
+        self.transform = nil
+        self.transformAnimation = nil
+        self.opacity = nil
+        self.opacityAnimation = nil
+    }
+
+    internal init(
+        text: String,
+        duration: CMTime,
+        style: TextStyle,
+        backgroundColor: PlatformColor,
+        clipID: ClipID?,
+        startTime: CMTime? = nil,
+        transform: Transform? = nil,
+        transformAnimation: Animation<Transform>? = nil,
+        opacity: Double? = nil,
+        opacityAnimation: Animation<Double>? = nil
+    ) {
+        self.text = text
+        self.style = style
+        self.backgroundColor = backgroundColor
+        self._duration = duration
+        self.clipID = clipID
+        self.startTime = startTime
+        self.transform = transform
+        self.transformAnimation = transformAnimation
+        self.opacity = opacity
+        self.opacityAnimation = opacityAnimation
+    }
+
+    /// Assign a stable identifier so callers can address this clip by ID across reorders
+    /// or trims. See ``ClipID`` for guidelines on choosing IDs.
+    public func id(_ id: ClipID) -> TitleSequence {
+        TitleSequence(text: text, duration: _duration, style: style, backgroundColor: backgroundColor, clipID: id, startTime: startTime, transform: transform, transformAnimation: transformAnimation, opacity: opacity, opacityAnimation: opacityAnimation)
+    }
+
+    /// Pin this clip to an explicit composition start time. See ``Clip/startTime`` for
+    /// the contract.
+    public func at(time: CMTime) -> TitleSequence {
+        TitleSequence(text: text, duration: _duration, style: style, backgroundColor: backgroundColor, clipID: clipID, startTime: time, transform: transform, transformAnimation: transformAnimation, opacity: opacity, opacityAnimation: opacityAnimation)
+    }
+
+    /// Pin this clip to an explicit composition start time, in seconds.
+    public func at(time: TimeInterval) -> TitleSequence {
+        at(time: CMTime(seconds: time, preferredTimescale: 600))
+    }
+
+    /// Apply a per-clip affine transform in the engine's render space. See
+    /// ``Kadr/Transform`` and ``Kadr/VideoClip/transform(_:)`` for the contract.
+    /// Added in v0.8.
+    public func transform(_ transform: Transform) -> TitleSequence {
+        TitleSequence(text: text, duration: _duration, style: style, backgroundColor: backgroundColor, clipID: clipID, startTime: startTime, transform: transform, transformAnimation: transformAnimation, opacity: opacity, opacityAnimation: opacityAnimation)
+    }
+
+    /// Apply a per-clip transform with a clip-relative keyframe animation. Added in v0.8.
+    public func transform(_ base: Transform, animation: Animation<Transform>) -> TitleSequence {
+        TitleSequence(text: text, duration: _duration, style: style, backgroundColor: backgroundColor, clipID: clipID, startTime: startTime, transform: base, transformAnimation: animation, opacity: opacity, opacityAnimation: opacityAnimation)
+    }
+
+    /// Set this clip's opacity in `0...1`. Added in v0.8.
+    public func opacity(_ opacity: Double) -> TitleSequence {
+        TitleSequence(text: text, duration: _duration, style: style, backgroundColor: backgroundColor, clipID: clipID, startTime: startTime, transform: transform, transformAnimation: transformAnimation, opacity: opacity, opacityAnimation: opacityAnimation)
+    }
+
+    /// Animate this clip's opacity over its lifetime. Added in v0.8.
+    public func opacity(_ base: Double, animation: Animation<Double>) -> TitleSequence {
+        TitleSequence(text: text, duration: _duration, style: style, backgroundColor: backgroundColor, clipID: clipID, startTime: startTime, transform: transform, transformAnimation: transformAnimation, opacity: base, opacityAnimation: animation)
+    }
+
+    /// Render the title to a `PlatformImage` at the given render size.
+    /// The engine calls this when consuming the clip.
+    internal func render(at renderSize: CGSize) -> PlatformImage {
+        let bounds = CGRect(origin: .zero, size: renderSize)
+
+        #if canImport(UIKit)
+        let renderer = UIGraphicsImageRenderer(size: renderSize)
+        return renderer.image { ctx in
+            backgroundColor.setFill()
+            ctx.fill(bounds)
+            let attrString = makeAttributedString()
+            let textRect = centeredRect(for: attrString, in: bounds)
+            attrString.draw(in: textRect)
+        }
+        #elseif canImport(AppKit)
+        let image = NSImage(size: renderSize)
+        image.lockFocus()
+        backgroundColor.setFill()
+        bounds.fill()
+        let attrString = makeAttributedString()
+        let textRect = centeredRect(for: attrString, in: bounds)
+        attrString.draw(in: textRect)
+        image.unlockFocus()
+        return image
+        #endif
+    }
+
+    private func makeAttributedString() -> NSAttributedString {
+        let paragraph = NSMutableParagraphStyle()
+        paragraph.alignment = nsAlignment(style.alignment)
+
+        var attributes: [NSAttributedString.Key: Any] = [
+            .foregroundColor: style.color,
+            .paragraphStyle: paragraph,
+        ]
+        attributes[.font] = font(for: style)
+        return NSAttributedString(string: text, attributes: attributes)
+    }
+
+    private func nsAlignment(_ alignment: TextStyle.Alignment) -> NSTextAlignment {
+        switch alignment {
+        case .leading:  return .left
+        case .center:   return .center
+        case .trailing: return .right
+        }
+    }
+
+    private func centeredRect(for attrString: NSAttributedString, in bounds: CGRect) -> CGRect {
+        let constrained = CGSize(width: bounds.width * 0.9, height: bounds.height)
+        let textBounds = attrString.boundingRect(
+            with: constrained,
+            options: [.usesLineFragmentOrigin, .usesFontLeading],
+            context: nil
+        )
+        let x = (bounds.width - textBounds.width) / 2
+        let y = (bounds.height - textBounds.height) / 2
+        return CGRect(x: x, y: y, width: textBounds.width, height: textBounds.height)
+    }
+
+    #if canImport(UIKit)
+    private func font(for style: TextStyle) -> UIFont {
+        if let name = style.fontName, let custom = UIFont(name: name, size: CGFloat(style.fontSize)) {
+            return custom
+        }
+        return UIFont.systemFont(ofSize: CGFloat(style.fontSize), weight: uiWeight(style.weight))
+    }
+    private func uiWeight(_ weight: TextStyle.Weight) -> UIFont.Weight {
+        switch weight {
+        case .regular: return .regular
+        case .medium:  return .medium
+        case .bold:    return .bold
+        }
+    }
+    #elseif canImport(AppKit)
+    private func font(for style: TextStyle) -> NSFont {
+        if let name = style.fontName, let custom = NSFont(name: name, size: CGFloat(style.fontSize)) {
+            return custom
+        }
+        return NSFont.systemFont(ofSize: CGFloat(style.fontSize), weight: nsWeight(style.weight))
+    }
+    private func nsWeight(_ weight: TextStyle.Weight) -> NSFont.Weight {
+        switch weight {
+        case .regular: return .regular
+        case .medium:  return .medium
+        case .bold:    return .bold
+        }
+    }
+    #endif
+}

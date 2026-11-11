@@ -1,0 +1,140 @@
+# ``Kadr``
+
+A modern, declarative Swift library for video composition on Apple platforms.
+
+## Overview
+
+Kadr lets you compose videos using a SwiftUI-style result-builder DSL with async/await throughout. Build slideshows from images, merge video clips, trim, reverse, replace audio, and export to social media formats — all in a few lines of Swift.
+
+```swift
+import Kadr
+
+let url = try await Video {
+    ImageClip(heroImage, duration: 5.0)
+}
+.audio(url: musicURL)
+.preset(.reelsAndShorts)
+.export(to: outputURL)
+```
+
+## Topics
+
+### Guides
+
+- <doc:Slideshows>
+- <doc:MultiTrackComposition>
+- <doc:KeyframeAnimation>
+- <doc:CustomCompositors>
+
+### Essentials
+
+- <doc:FrameAccuracy>
+- <doc:MigrationGuide>
+- <doc:KnownPlatformIssues>
+
+### Composing Videos
+
+- ``Video``
+- ``VideoBuilder``
+- ``AudioBuilder``
+
+### Clip Types
+
+- ``Clip``
+- ``VideoClip``
+- ``ImageClip``
+- ``VideoClipMetadata``
+- ``ClipID``
+
+### Multi-track Timeline (v0.6+)
+
+- ``Track``
+- ``VideoClip/at(time:)-(CMTime)``
+- ``VideoClip/at(time:)-(TimeInterval)``
+- ``MultiInputCompositor``
+- ``Video/compositor(_:)-(any)``
+- ``Video/compositor(_:)-(closure)``
+
+### Audio
+
+- ``AudioTrack``
+
+### Transitions
+
+- ``Transition``
+- ``SlideDirection``
+
+### Layout (v0.3+)
+
+- ``Position``
+- ``Size``
+- ``Anchor``
+- ``LayerID``
+
+### Overlays (v0.3+)
+
+- ``Overlay``
+- ``ImageOverlay``
+- ``TextOverlay``
+- ``TextStyle``
+- ``TextStroke``
+- ``TextShadow``
+- ``StickerOverlay``
+
+### Filters (v0.3+)
+
+- ``Filter``
+- ``LUT``
+- ``ChromaKey``
+- ``ColorComponents``
+
+### Cropping (v0.3+)
+
+- ``Video/crop(at:size:anchor:)``
+- ``VideoClip/crop(at:size:anchor:)``
+- ``VideoClip/mask(_:)-(CIImage)``
+- ``VideoClip/mask(_:)-(PlatformImage)``
+- ``CropRegion``
+
+### Custom Processing (v0.5+)
+
+- ``Compositor``
+- ``CompositorContext``
+- ``VideoClip/compositor(_:)-(any)``
+- ``VideoClip/compositor(_:)-(closure)``
+
+### Preview & Introspection (v0.4+)
+
+- ``Video/makePlayerItem()``
+- ``Video/thumbnail(at:)-(CMTime)``
+- ``Video/thumbnail(at:)-(TimeInterval)``
+- ``Video/thumbnailGenerator()``
+- ``ThumbnailGenerator``
+- ``SampleMedia``
+- ``AudioWaveform``
+- ``AudioWaveform/resampled(to:)``
+- ``AudioWaveformLoader``
+- ``Layout``
+- ``Layout/resolveFrame(position:size:anchor:in:)``
+
+### Sugar (v0.3+)
+
+- ``BackgroundMusic``
+- ``TitleSequence``
+- ``Timecode``
+
+### Export
+
+- ``Exporter``
+- ``ExportProgress``
+- ``Preset``
+- ``Codec``
+
+### Platform Support
+
+- ``PlatformImage``
+- ``PlatformColor``
+
+### Errors
+
+- ``KadrError``

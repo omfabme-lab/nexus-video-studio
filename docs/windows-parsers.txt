@@ -1,0 +1,18 @@
+PASS: independent OpenStep/PBX parser; native target: NexusVideoStudio
+PASS: XML/plist parser: App/Info.plist
+PASS: XML/plist parser: App/Resources/PrivacyInfo.xcprivacy
+PASS: YAML parser; manual workflow, 7 steps
+PASS: Swift syntax: App\BriefAssistant.swift
+PASS: Swift syntax: App\CapabilitiesView.swift
+PASS: Swift syntax: App\KeyframeArt.swift
+PASS: Swift syntax: App\LocalRenderer.swift
+PASS: Swift syntax: App\MediaControls.swift
+PASS: Swift syntax: App\SceneEditor.swift
+PASS: Swift syntax: App\StudioApp.swift
+PASS: Swift syntax: App\StudioStore.swift
+PASS: Swift syntax: App\StudioTheme.swift
+PASS: Swift syntax: App\StudioView.swift
+PASS: Swift syntax: Core\Package.swift
+PASS: Swift syntax: Core\Sources\StudioCore\Project.swift
+PASS: Swift syntax: Core\Tests\StudioCoreTests\StudioCoreTests.swift
+Swift syntax files: 13 errors: 0 (not SDK type checking)

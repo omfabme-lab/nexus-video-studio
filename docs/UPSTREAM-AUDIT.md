@@ -1,0 +1,23 @@
+# Upstream audit — 2026-11-11
+
+Source repositories were shallow-cloned into the task's scratch directory for read-only audit. No weights were downloaded. The existing Nexus app was not consulted. A minimum OS version in an upstream manifest is not evidence of an Xcode 27 build; the prepared CI run is still the compatibility gate for this integration.
+
+| Candidate and pinned audited commit | Findings | Decision |
+|---|---|---|
+| [Kadr](https://github.com/SteliyanH/kadr) `ff6c4bf2ee6663aa7ce973ee5a678c67f6d63475` | Apache-2.0; Swift tools 6.0; iOS 17+; no third-party package dependencies. Source exposes ImageClip, VideoClip, Transform animation, TextOverlay, AudioTrack and cancellable Exporter. Upstream documents simulator overlay-export limitations. | Reuse engine source locally. Keep full license, source headers and SHA-256 inventory. Only manifest reduced to library target. |
+| [MobileDiffuser](https://github.com/TWWinde/MobileDiffuser) `0f56c18ccf545e7532c8e0231671714b471c88f0` | Current tree is an MLX rebuild, MPL-2.0, with original MIT notice retained. README targets iOS 18.2 and expects sibling local engine repositories. Model licenses are separate from app code. | Not bundled. MPL permits commercial distribution with file-level obligations, but integration and model-memory/download work is outside the smallest reliable route. No claim that it is simply MIT or self-contained. |
+| [swift-video-composer](https://github.com/mamonet/swift-video-composer) `97fd7707f2aaac3f3694d4dd54a9fc43c1dd0016` | Swift tools 5.9, iOS 16; no LICENSE, COPYING or NOTICE file found in audited tree. Public availability alone does not establish permission to redistribute. | No source copied. Excluded until explicit licensing is established. |
+| [VideoEditorKit](https://github.com/didisouzacosta/VideoEditorKit) `c917b1e99ddc631b754a43704c05dfe3836e8183` | MIT, copyright 2026 didisouzacosta; Swift 6, iOS 18.6+. Ready-made editor centers around one source video, one added recorded track, optional remote transcription. | Commercially compatible fallback, but larger UI integration and less direct fit for a multi-shot storyboard. No code bundled and no remote transcription path used. |
+| [Apple Foundation Models](https://developer.apple.com/documentation/FoundationModels/generating-content-and-performing-tasks-with-foundation-models) | Apple system SDK, runtime availability depends on Apple Intelligence/device/region/model readiness. Text assistance is distinct from video generation. | Optional on-device text adapter with explicit availability check. Offline template is always available. No special cloud capability or paid API used. |
+
+## Included third-party inventory
+
+Only **Kadr** is included as third-party source. Copyright 2025 Steliyan Hadzhidenev. Full Apache-2.0 license: `Vendor/Kadr/LICENSE`, copied into the app as `Kadr-LICENSE.txt` and displayed in the capability screen. Original source headers are preserved. No separate upstream NOTICE file was present. `Vendor/Kadr/SNAPSHOT.json` records every included file's SHA-256. Source files are byte-for-byte from the audited checkout. The local `Package.swift` is explicitly marked as a library-only replacement and is not represented as unmodified upstream.
+
+Studio's original code and procedural demo artwork use the root MIT license. The user's UI reference is not redistributed in the public-ready source. Apple system frameworks and SF Symbols are not copied into this repository; use is through SDK APIs. No stock footage, music, fonts, diffusion weights, paid APIs or bundled proprietary media are present.
+
+## Build-service verification
+
+GitHub's [runner announcement](https://github.blog/changelog/2026-07-16-xcode-27-runner-image-now-in-public-preview/) and [runner inventory](https://github.com/actions/runner-images) list `xcode-27`. The [standard public-runner reference](https://docs.github.com/en/actions/reference/runners/github-hosted-runners) lists it in the free public-repository runner tier. The workflow deliberately does not use `xcode-27-xlarge`. Public source publication remains an approval gate. Actions are pinned to commit hashes resolved from their v4 tags on the audit date; future updates should be reviewed and repinned.
+
+AltStore's [Windows instructions](https://faq.altstore.io/altstore-classic/how-to-install-altstore-windows) and [getting-started documentation](https://faq.altstore.io/altstore-classic/your-altstore) describe the local signing/refresh route. This task has not demonstrated installation on the user's physical iOS 27 device. That remains a separate acceptance test, including current AltServer/iOS compatibility and free-account entitlement support.

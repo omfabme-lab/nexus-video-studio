@@ -1,0 +1,18 @@
+✔ checked-in Xcode project and shared scheme exactly match the generator (8.2024ms)
+✔ every project object reference resolves; each app source is included exactly once (2.397ms)
+✔ iPhone/iOS 27 target is unsigned and has no development team (0.7937ms)
+✔ source snapshot matches the audited Kadr file hashes and has no missing files (61.6805ms)
+✔ required third-party license is bundled verbatim and shown in app (4.4696ms)
+✔ CI is manual, public-only, least-privilege, pinned and short-retention (1.6749ms)
+✔ both package dependencies are local and runtime app has no network client (12.0084ms)
+✔ privacy descriptions, portrait mode and local file access are declared (2.2352ms)
+✔ app icon is a valid opaque 1024-square PNG and all resource references exist (3.753ms)
+✔ distribution excludes models, private credentials and runtime media (48.0797ms)
+ℹ tests 10
+ℹ suites 0
+ℹ pass 10
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 334.068

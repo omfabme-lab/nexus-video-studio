@@ -1,0 +1,6 @@
+* text=auto eol=lf
+*.png binary
+# Preserve the exact audited bytes, including upstream checkout line endings.
+Vendor/Kadr/Sources/** -text
+Vendor/Kadr/LICENSE -text
+App/Resources/Kadr-LICENSE.txt -text

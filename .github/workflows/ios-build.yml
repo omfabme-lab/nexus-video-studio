@@ -1,0 +1,79 @@
+name: Build unsigned iPhone app
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: studio-manual-build
+  cancel-in-progress: false
+jobs:
+  build:
+    # Standard runner, free for public repositories. Do not change to -xlarge.
+    if: github.event.repository.private == false
+    runs-on: xcode-27
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - name: Verify toolchain and source
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p build/evidence
+          xcodebuild -version | tee build/evidence/toolchain.txt
+          xcodebuild -version | head -n 1 | grep -E '^Xcode 27([. ]|$)'
+          xcodebuild -showsdks | tee build/evidence/sdks.txt
+          node --test scripts/validate.test.mjs
+          plutil -lint App/Info.plist App/Resources/PrivacyInfo.xcprivacy NexusVideoStudio.xcodeproj/project.pbxproj
+      - name: Test portable Swift logic
+        shell: bash
+        run: |
+          set -euo pipefail
+          swift test --package-path Core 2>&1 | tee build/evidence/core-tests.txt
+      - name: Build iPhone application without credentials
+        shell: bash
+        run: |
+          set -euo pipefail
+          xcodebuild -project NexusVideoStudio.xcodeproj -scheme NexusVideoStudio \
+            -configuration Release -sdk iphoneos -destination 'generic/platform=iOS' \
+            -derivedDataPath build/device CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO \
+            build 2>&1 | tee build/evidence/device-build.txt
+      - name: Package unsigned IPA for local AltStore signing
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p build/package/Payload
+          cp -R build/device/Build/Products/Release-iphoneos/NexusVideoStudio.app build/package/Payload/
+          test -f build/package/Payload/NexusVideoStudio.app/NexusVideoStudio
+          cd build/package
+          /usr/bin/zip -qry ../NexusVideoStudio-unsigned.ipa Payload
+          cd ../..
+          shasum -a 256 build/NexusVideoStudio-unsigned.ipa > build/evidence/ipa-sha256.txt
+      - name: Build and launch iPhone 18 Pro Max simulator
+        shell: bash
+        run: |
+          set -euo pipefail
+          xcodebuild -project NexusVideoStudio.xcodeproj -scheme NexusVideoStudio \
+            -configuration Debug -sdk iphonesimulator -destination 'generic/platform=iOS Simulator' \
+            -derivedDataPath build/simulator CODE_SIGNING_ALLOWED=NO build \
+            2>&1 | tee build/evidence/simulator-build.txt
+          DEVICE_ID=$(xcrun simctl list devices available -j | python3 -c 'import sys,json; d=json.load(sys.stdin); print(next(x["udid"] for runtime,devices in d["devices"].items() if "iOS-27" in runtime for x in devices if x["name"] == "iPhone 18 Pro Max"))')
+          xcrun simctl boot "$DEVICE_ID"
+          xcrun simctl bootstatus "$DEVICE_ID" -b
+          xcrun simctl status_bar "$DEVICE_ID" override --time '9:41' --batteryState charged --batteryLevel 100
+          xcrun simctl install "$DEVICE_ID" build/simulator/Build/Products/Debug-iphonesimulator/NexusVideoStudio.app
+          xcrun simctl launch "$DEVICE_ID" studio.nexus.video | tee build/evidence/simulator-launch.txt
+          sleep 5
+          xcrun simctl io "$DEVICE_ID" screenshot build/evidence/iphone-18-pro-max.png
+          xcrun simctl shutdown "$DEVICE_ID"
+      - name: Upload IPA and evidence (3 days)
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: NexusVideoStudio-unsigned-and-evidence
+          path: |
+            build/NexusVideoStudio-unsigned.ipa
+            build/evidence/
+          retention-days: 3
+          if-no-files-found: warn
